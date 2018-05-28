@@ -25,3 +25,9 @@ hs_err_pid*
 
 # IJ
 bin
+
+# Output
+.idea/
+build/
+classes/
+out/
