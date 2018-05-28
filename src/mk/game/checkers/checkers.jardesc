@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+<jar path="C:/MyApps/Java/mk.game.checkers.jar"/>
+<options buildIfNeeded="true" compress="true" descriptionLocation="/Game/mk.game.checkers/mk.game.checkers.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" useSourceFolders="false"/>
+<manifest generateManifest="true" mainClassHandleIdentifier="=Game/&lt;mk.game.checkers{Checkers.java[Checkers" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+<sealing sealJar="false">
+<packagesToSeal/>
+<packagesToUnSeal/>
+</sealing>
+</manifest>
+<selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
+<javaElement handleIdentifier="=Game"/>
+</selectedElements>
+</jardesc>

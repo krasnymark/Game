@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean id="mainMenu" class="mk.game.GameMainMenu">
+
+		<property name="games">
+            <list>
+                <ref bean="connect4"/>
+                <ref bean="checkers"/>
+                <ref bean="stones"/>
+            </list>
+		</property>
+
+	</bean>
+
+    <bean id="connect4" class="mk.game.connect4.model.Connect4Game">
+<!--
+        <property name="drawIfNoMoves" value="true"/>
+-->
+    </bean>
+
+    <bean id="checkers" class="mk.game.checkers.model.CheckersGame">
+
+        <property name="rules">
+            <value>
+    Russian vs American:
+
+-   Pawns jump not only forward, but backward as well
+-   Pawns jumping over the last horisontal continue jumping as Kings
+-   If there is a fork in a jump, any direction may be chosen
+-   Kings go and jump over any number of cells in all directions
+-   Jumps must be completed
+            </value>
+        </property>
+
+    </bean>
+
+    <bean id="stones" class="mk.game.stones.model.StonesGame">
+
+        <property name="rules">
+            <value>
+Each player during a move takes any number of stones from one line at a time.
+The player to take the last stone wins.
+            </value>
+        </property>
+
+    </bean>
+
+</beans>

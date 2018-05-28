@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_game" default="compile.module.game">
+  <dirname property="module.game.basedir" file="${ant.file.module_game}"/>
+  
+  <property name="module.jdk.home.game" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.game" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.game" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.game" value="-encoding UTF-8 -source 1.6 -target 1.6 ${compiler.args}"/>
+  
+  <property name="game.output.dir" value="${module.game.basedir}/out/production/Game"/>
+  <property name="game.testoutput.dir" value="${module.game.basedir}/out/test/Game"/>
+  
+  <path id="game.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="game.module.production.classpath">
+    <path refid="${module.jdk.classpath.game}"/>
+    <path refid="library.log4j-1.2.14.classpath"/>
+    <path refid="library.commons-lang-2.6.classpath"/>
+    <path refid="library.spring.classpath"/>
+    <path refid="library.commons-logging-1.1.classpath"/>
+  </path>
+  
+  <path id="game.runtime.production.module.classpath">
+    <pathelement location="${game.output.dir}"/>
+    <path refid="library.log4j-1.2.14.classpath"/>
+    <path refid="library.commons-lang-2.6.classpath"/>
+    <path refid="library.spring.classpath"/>
+    <path refid="library.commons-logging-1.1.classpath"/>
+  </path>
+  
+  <path id="game.module.classpath">
+    <path refid="${module.jdk.classpath.game}"/>
+    <pathelement location="${game.output.dir}"/>
+    <path refid="library.log4j-1.2.14.classpath"/>
+    <path refid="library.commons-lang-2.6.classpath"/>
+    <path refid="library.spring.classpath"/>
+    <path refid="library.commons-logging-1.1.classpath"/>
+  </path>
+  
+  <path id="game.runtime.module.classpath">
+    <pathelement location="${game.testoutput.dir}"/>
+    <pathelement location="${game.output.dir}"/>
+    <path refid="library.log4j-1.2.14.classpath"/>
+    <path refid="library.commons-lang-2.6.classpath"/>
+    <path refid="library.spring.classpath"/>
+    <path refid="library.commons-logging-1.1.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.game">
+    <patternset refid="ignored.files"/>
+    <exclude name="out/**"/>
+    <exclude name="out/test/**"/>
+    <exclude name="out/test/Game/**"/>
+    <exclude name="out/production/**"/>
+    <exclude name="out/production/Game/**"/>
+    <exclude name="out/production/Game/mk/**"/>
+    <exclude name="out/production/Game/mk/game/**"/>
+    <exclude name="out/production/Game/mk/game/common/**"/>
+    <exclude name="out/production/Game/mk/game/common/util/**"/>
+    <exclude name="out/production/Game/mk/game/common/view/**"/>
+    <exclude name="out/production/Game/mk/game/common/model/**"/>
+    <exclude name="out/production/Game/mk/game/stones/**"/>
+    <exclude name="out/production/Game/mk/game/stones/view/**"/>
+    <exclude name="out/production/Game/mk/game/stones/model/**"/>
+    <exclude name="out/production/Game/mk/game/checkers/**"/>
+    <exclude name="out/production/Game/mk/game/checkers/view/**"/>
+    <exclude name="out/production/Game/mk/game/checkers/model/**"/>
+    <exclude name="out/production/Game/mk/game/connect4/**"/>
+    <exclude name="out/production/Game/mk/game/connect4/view/**"/>
+    <exclude name="out/production/Game/mk/game/connect4/model/**"/>
+    <exclude name="out/production/Game/src/**"/>
+    <exclude name="out/production/Game/src/mk/**"/>
+    <exclude name="out/production/Game/src/mk/game/**"/>
+    <exclude name="out/production/Game/src/mk/game/checkers/**"/>
+    <exclude name="out/production/Game/src/mk/game/connect4/**"/>
+    <exclude name="out/production/Game/.idea/**"/>
+    <exclude name="out/production/Game/.idea/scopes/**"/>
+    <exclude name="out/production/Game/.idea/copyright/**"/>
+    <exclude name="out/production/Game/.idea/libraries/**"/>
+    <exclude name="out/production/Game/.idea/inspectionProfiles/**"/>
+    <exclude name="out/production/Game/build/**"/>
+    <exclude name="out/production/Game/build/MK-Games/**"/>
+    <exclude name="out/production/Game/build/MK-Games/images/**"/>
+    <exclude name="out/production/Game/config/**"/>
+    <exclude name="out/production/Game/images/**"/>
+    <exclude name="out/production/Game/classes/**"/>
+    <exclude name="out/production/Game/classes/game/**"/>
+    <exclude name="out/production/Game/classes/game/images/**"/>
+    <exclude name="out/production/Game/classes/checkers/**"/>
+    <exclude name="out/production/Game/classes/connect4/**"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.game">
+    <patternset refid="excluded.from.module.game"/>
+  </patternset>
+  
+  <path id="game.module.sourcepath">
+    <dirset dir="${module.game.basedir}/../../Java">
+      <include name="Game"/>
+      <include name="Game/src"/>
+      <include name="Game/config"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.game" depends="compile.module.game.production,compile.module.game.tests" description="Compile module Game"/>
+  
+  <target name="compile.module.game.production" depends="register.custom.compilers" description="Compile module Game; production classes">
+    <mkdir dir="${game.output.dir}"/>
+    <javac2 destdir="${game.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.game}/javac">
+      <compilerarg line="${compiler.args.game}"/>
+      <bootclasspath refid="game.module.bootclasspath"/>
+      <classpath refid="game.module.production.classpath"/>
+      <src refid="game.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.game"/>
+    </javac2>
+    
+    <copy todir="${game.output.dir}">
+      <fileset dir="${module.game.basedir}">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.game.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.game.basedir}/config">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.game.tests" depends="register.custom.compilers,compile.module.game.production" description="compile module Game; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.game" description="cleanup module">
+    <delete dir="${game.output.dir}"/>
+    <delete dir="${game.testoutput.dir}"/>
+  </target>
+</project>

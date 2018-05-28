@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="build" name="MK-Games">
+
+	<tstamp>
+		<format property="currentBuild" pattern="yy.MM.dd.hhmmss" offset="-5" unit="second" />
+	</tstamp>
+    <property name="package" value="mk.game"/>
+	<property name="src.dir" value="${basedir}/src" />
+    <property name="lib.dir" value="${basedir}/lib" />
+    <property name="image.dir" value="${basedir}/images" />
+    <property name="config.dir" value="${basedir}/config" />
+	<property name="build.dir" value="${basedir}/build/${ant.project.name}" />
+    <property name="class.dir" value="${build.dir}/classes" />
+	<property name="build.jar" value="${build.dir}/${ant.project.name}.jar" />
+
+
+	<!-- Classpath -->
+	<path id="project.classpath">
+		<fileset dir="${lib.dir}" includes="*" />
+		<!--<pathelement location="${classes.dir}" />-->
+	</path>
+
+	<target name="init">
+		<echo>Current build: ${build.dir}</echo>
+        <delete dir="${build.dir}" />
+        <mkdir dir="${build.dir}" />
+
+        <mkdir dir="${class.dir}" />
+        <mkdir dir="${build.dir}/lib" />
+        <mkdir dir="${build.dir}/log" />
+        <mkdir dir="${build.dir}/images" />
+        <mkdir dir="${build.dir}/config" />
+
+        <copy todir="${build.dir}">
+            <fileset dir="${config.dir}">
+                <include name="**/*.xml" />
+            </fileset>
+        </copy>
+
+        <copy todir="${build.dir}/lib">
+            <fileset dir="${lib.dir}">
+                <include name="**/*.jar" />
+            </fileset>
+        </copy>
+
+        <copy todir="${build.dir}/images">
+            <fileset dir="${image.dir}">
+                <include name="**/*.*" />
+            </fileset>
+        </copy>
+
+        <copy todir="${build.dir}">
+            <fileset dir="${basedir}">
+                <include name="**/*.bat" />
+                <include name="**/*.sh" />
+            </fileset>
+        </copy>
+	</target>
+	<target name="compileAndJar" depends="init" description="Compile Source and jar">
+		<javac includeantruntime="false" target="1.5" verbose="false" destdir="${class.dir}" debug="true">
+			<src path="${src.dir}" />
+			<classpath refid="project.classpath" />
+			<!--	<compilerarg value="-Xlint:unchecked" />-->
+		</javac>
+
+		<jar jarfile="${build.jar}" basedir="${class.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="${package}.GameMainMenu"/>
+                <attribute name="Class-Path" value=". ./config ${manifest.classpath}"/>
+            </manifest>
+        </jar>
+		<delete dir="${class.dir}" />
+	</target>
+
+    <path id="build.classpath">
+        <fileset dir="${basedir}">
+        <include name="lib/*.jar"/>
+        </fileset>
+    </path>
+
+    <pathconvert property="manifest.classpath" pathsep=" ">
+        <path refid="build.classpath"/>
+        <mapper>
+            <chainedmapper>
+                <flattenmapper/>
+                <globmapper from="*.jar" to="lib/*.jar"/>
+            </chainedmapper>
+        </mapper>
+    </pathconvert>
+
+	<target name="build" depends="init,compileAndJar" description="Normal Build">
+	</target>
+
+</project>
